@@ -42,11 +42,12 @@
     </ion-row>
     <ion-row>
       <ion-col size-sm="6" offfset-sm="3">
+        <ion-item>
           <ion-label class="label-class" position="floating">From</ion-label>
           <br>
 
           <ion-datetime-button datetime="datetime1"></ion-datetime-button>
-          <ion-modal [keepContentsMounted]="true">
+          <ion-modal class="ion-modal-class"  [keepContentsMounted]="true">
             <ng-template>
               <ion-datetime
               display-format="MMM DD YYYY"
@@ -57,14 +58,16 @@
               </ion-datetime>
             </ng-template>
           </ion-modal>
+        </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size-sm="6" offfset-sm="3">
+        <ion-item>
           <ion-label class="label-class" position="floating">To</ion-label>
           <br>
-          <ion-datetime-button datetime="datetime2"></ion-datetime-button>
-          <ion-modal [keepContentsMounted]="true">
+          <ion-datetime-button  datetime="datetime2"></ion-datetime-button>
+          <ion-modal class="ion-modal-class" [keepContentsMounted]="true">
             <ng-template>
               <ion-datetime
               display-format="MMM DD YYYY"
@@ -75,6 +78,7 @@
               </ion-datetime>
             </ng-template>
           </ion-modal>
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>

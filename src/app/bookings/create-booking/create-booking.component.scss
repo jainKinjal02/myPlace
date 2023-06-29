@@ -1,9 +1,14 @@
-ion-grid
-{
-  margin: 5px;
-}
+
 .label-class{
   padding: 5px;
   font-size: 11px;
   color: green;
+}
+
+.ion-modal-class{
+  --backdrop-opacity: 0.5 !important;
+}
+
+ion-datetime-button{
+  margin-bottom: 8px;
 }
