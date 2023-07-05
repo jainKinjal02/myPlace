@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { take ,map} from 'rxjs/operators';
+import { take ,map, tap, delay} from 'rxjs/operators';
 import { Place } from './places.model';
 import { AuthService } from '../auth/auth.service';
 
@@ -57,9 +57,31 @@ export class PlacesService {
     const newPlace = new Place(Math.random().toString(), title, description ,'https://lonelyplanetimages.imgix.net/mastheads/GettyImages-538096543_medium.jpg?sharp=10&vib=20&w=1200',price,
     dateFrom, dateTo, this.authService.userId
     );
-    this.places.pipe(take(1)).subscribe((places)=>{
-      this.places.next(places.concat(newPlace));
-    });
+    return this.places.pipe(take(1),delay(1000) ,tap((places)=>{
+        this.places.next(places.concat(newPlace));
+    }));
 
+  }
+
+  updatePlace(placeId: string , title: string , description: string){
+    console.log(placeId , title , description);
+    return this.places.pipe(take(1),
+    delay(1000),
+    tap(places => {
+      const updatedPlaceIndex = places.findIndex(pl=> pl.id === placeId);
+      const updatedPlaces = [...places];
+      const oldPlace = updatedPlaces[updatedPlaceIndex];
+      updatedPlaces[updatedPlaceIndex] = new Place(
+        oldPlace.id,
+        title,
+        description,
+         oldPlace.imageUrl,
+         oldPlace.price,
+         oldPlace.availableFrom,
+         oldPlace.availableTo,
+         oldPlace.userId);
+         this.places.next(updatedPlaces);
+         //console.log(updatedPlaces[updatedPlaceIndex]);
+    }));
   }
 }
