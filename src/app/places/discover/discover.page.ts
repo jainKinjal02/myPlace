@@ -14,7 +14,8 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class DiscoverPage implements OnInit , OnDestroy {
   loadedPlaces: Place[];
   listedLoadedPlaces: Place[];
-  relevantPlaces : Place[]
+  relevantPlaces : Place[];
+  isLoading = false;
   private placesSub : Subscription;
   constructor(private placesService: PlacesService ,
     private menuCtrl: MenuController,
@@ -28,6 +29,13 @@ export class DiscoverPage implements OnInit , OnDestroy {
     this.relevantPlaces = this.loadedPlaces;
    });
 
+  }
+
+  ionViewWillEnter(){
+    this.isLoading = true;
+    this.placesService.fetchPlaces().subscribe(()=>{
+      this.isLoading = false;
+    });
   }
 
   onOpenMenu(){
