@@ -14,6 +14,12 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
+  <key>NSCameraUsageDescription</key>
+  <string>Camera Usage</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>Photo Library</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+  <string>Photo Library Usage Description</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
