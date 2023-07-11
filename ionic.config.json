@@ -1,5 +1,7 @@
 {
   "name": "myPlace",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
