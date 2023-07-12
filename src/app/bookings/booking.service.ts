@@ -30,37 +30,47 @@ export class BookingService{
     ){}
 
   addBooking(
-    placeId: string,
-    placeTitle: string,
-    placeImage: string,
-    firstName: string,
-    lastName: string,
-    guestNumber: number,
-    dateFrom: Date,
-    dateTo: Date
+      placeId: string,
+      placeTitle: string,
+      placeImage: string,
+      firstName: string,
+      lastName: string,
+      guestNumber: number,
+      dateFrom: Date,
+      dateTo: Date
   ) {
-    let generatedId: string;
-    const newBooking = new Booking(
-      Math.random().toString(),
-      placeId,
-      this.authService.userId,
-      placeTitle,
-      placeImage,
-      firstName,
-      lastName,
-      guestNumber,
-      dateFrom,
-      dateTo
-    );
-    return this.http.post<{name: string}>('https://pairbnb-cc42b-default-rtdb.firebaseio.com/bookings.json',
-          {...newBooking, id: null}
-          ).pipe(switchMap(resData => {
+        let generatedId: string;
+        let newBooking : Booking ;
+        return this.authService.userId.pipe(take(1)
+          , switchMap(userId => {
+            if(!userId){
+              throw new Error('No user Id found');
+            }
+            newBooking = new Booking(
+              Math.random().toString(),
+              placeId,
+              userId,
+              placeTitle,
+              placeImage,
+              firstName,
+              lastName,
+              guestNumber,
+              dateFrom,
+              dateTo
+            );
+            return this.http.post<{name: string}>('https://pairbnb-cc42b-default-rtdb.firebaseio.com/bookings.json',
+            {...newBooking, id: null}
+            );
+          }),
+          switchMap(resData => {
             generatedId = resData.name;
             return this.bookings;
-          }),take(1),tap(bookings=>{
-            newBooking.id= generatedId;
-            this._bookings.next(bookings.concat(newBooking));
-          }));
+          }),take(1),
+            tap(bookings=>{
+              newBooking.id= generatedId;
+              this._bookings.next(bookings.concat(newBooking));
+          })
+        );
   }
 
   cancelBooking(bookingId: string){

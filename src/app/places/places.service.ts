@@ -103,13 +103,24 @@ fetchPlaces(){
 
   addPlace(title: string, description: string , price: number, dateFrom: Date,dateTo: Date ){
     let generatedId: string ;
-    const newPlace = new Place(
-      Math.random().toString(),
-      title, description ,'https://lonelyplanetimages.imgix.net/mastheads/GettyImages-538096543_medium.jpg?sharp=10&vib=20&w=1200',price,
-    dateFrom, dateTo, this.authService.userId
-    );
-    return this.http.post<{name: string}>('https://pairbnb-cc42b-default-rtdb.firebaseio.com/offered-places.json',
-     { ...newPlace, id: null})
+    let newPlace: Place;
+    return this.authService.userId.pipe(take(1),switchMap(userId => {
+      if(!userId){
+        throw new Error('No user found');
+      }
+      newPlace = new Place(
+        Math.random().toString(),
+        title,
+        description ,
+        'https://lonelyplanetimages.imgix.net/mastheads/GettyImages-538096543_medium.jpg?sharp=10&vib=20&w=1200',
+        price,
+        dateFrom,
+        dateTo,
+        userId
+      );
+      return this.http.post<{name: string}>('https://pairbnb-cc42b-default-rtdb.firebaseio.com/offered-places.json',
+      { ...newPlace, id: null}
+      )
     .pipe(
       switchMap(resData => {
         generatedId = resData.name;
@@ -119,9 +130,10 @@ fetchPlaces(){
       tap(places => {
         newPlace.id = generatedId;
         this.places.next(places.concat(newPlace));
-;      })
-    );
-
+;       })
+      );
+    })
+  );
   }
 
   updatePlace(placeId: string , title: string , description: string){
