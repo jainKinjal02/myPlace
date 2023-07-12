@@ -29,6 +29,7 @@
     "@capacitor/ios": "^5.0.4",
     "@capacitor/keyboard": "5.0.5",
     "@capacitor/status-bar": "5.0.5",
+    "@capacitor/storage": "^1.2.5",
     "@ionic/angular": "^7.0.0",
     "@ionic/pwa-elements": "^3.2.1",
     "ionicons": "^7.0.0",
