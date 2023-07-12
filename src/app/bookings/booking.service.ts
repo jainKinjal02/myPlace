@@ -83,8 +83,12 @@ export class BookingService{
   }
 
   fetchBookings(){
-    return this.http.get<{[key: string]: BookingData}>(`https://pairbnb-cc42b-default-rtdb.firebaseio.com/bookings.json?orderBy="userId"&equalTo="${this.authService.userId}"`)
-    .pipe(map(bookingData => {
+    return this.authService.userId.pipe(switchMap(userId=> {
+      if(!userId){
+        throw new Error('user not found!');
+      }
+      return this.http.get<{[key: string]: BookingData}>(`https://pairbnb-cc42b-default-rtdb.firebaseio.com/bookings.json?orderBy="userId"&equalTo="${userId}"`);
+    }),map(bookingData => {
       const bookings = [];
       for(const key in bookingData){
         if(bookingData.hasOwnProperty(key)){
