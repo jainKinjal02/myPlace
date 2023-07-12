@@ -43,6 +43,9 @@ export class AuthPage implements OnInit {
       // send a request to login servers
     }else{
       // send a request to sign up servers
+      this.authService.signup(email,password).subscribe(resData=>{
+        console.log(resData);
+      });
     }
   }
   onSwitchAuthMode(){
