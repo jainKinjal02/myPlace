@@ -4,7 +4,7 @@ import { NavController, ModalController, ActionSheetController, LoadingControlle
 import { PlacesService } from '../../places.service';
 import { Place } from '../../places.model';
 import { CreateBookingComponent } from 'src/app/bookings/create-booking/create-booking.component';
-import { Subscription, switchMap } from 'rxjs';
+import { Subscription, switchMap, take } from 'rxjs';
 import { BookingService } from 'src/app/bookings/booking.service';
 import { AuthService } from 'src/app/auth/auth.service';
 
@@ -36,7 +36,9 @@ export class PlaceDetailPage implements OnInit ,OnDestroy{
       }
       this.isLoading = true;
       let fetchedUserId: string;
-      this.authService.userId.pipe(switchMap(userId =>{
+      this.authService.userId.pipe(
+        take(1),
+        switchMap(userId =>{
         if(!userId){
             throw new Error('Found no user!');
         }
