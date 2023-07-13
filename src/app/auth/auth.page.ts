@@ -80,7 +80,5 @@ export class AuthPage implements OnInit {
   }
 
 }
-function subscribe(arg0: (resData: any) => void, arg1: (errorRes: any) => void) {
-  throw new Error('Function not implemented.');
-}
+
 
