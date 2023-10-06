@@ -17,7 +17,7 @@ export class AppComponent implements OnInit , OnDestroy{
   constructor(private platform: Platform,
               private authService: AuthService,
               private router: Router) {
-                this.initializeApp();
+              this.initializeApp();
               }
 
   initializeApp(){
